@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.IO Chat Example</title>
+  <!-- <script defer src="/socket.io/socket.io.js"></script> -->
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+  <script>
+    // Connect to the Socket.IO server
+    const socket = io("http://localhost:9876/");
+    let value;
+    // Listen for 'chat message' events and display the messages
+    socket.on('chat message', (msg) => {
+      const li = document.createElement('li');
+      li.textContent = msg;
+      document.getElementById('messages').appendChild(li);
+    });
+
+    // Send a message to the server when the form is submitted
+    // document.getElementById('chat-form').addEventListener('submit', (e) => {
+    //   e.preventDefault();
+    //   const messageInput = document.getElementById('message-input');
+    //   const message = messageInput.value;
+    //   socket.emit('chat message', message);
+    //   messageInput.value = '';
+    // });
+    function sendData(){
+        socket.emit('chat message', value);
+    }
+  </script>
+</head>
+<body>
+  <h1>Socket.IO Chat Example</h1>
+  <ul id="messages"></ul>
+  <form >
+    <input id="message-input" [(ngModel)]="value" autocomplete="off" />
+    <button (click)="sendData()">Send</button>
+  </form>
+</body>
+</html>
